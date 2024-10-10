@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Library Management System</div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Page -->
+  <center>  <div id="login-page" style="display: none;">
+        <form id="loginForm" onsubmit="login(event)">
+            <input type="text" placeholder="Username" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit" class="responsive-button">Login</button>
+        </form>
+    </div></center>
+
+    <!-- Book Search and Display Section -->
+    <div id="book-display" style="display: none;">
+        <input type="text" id="searchBar" placeholder="Search for books..." oninput="searchBooks()">
+        <div id="books-container"></div>
+
+
+    <!-- Borrowed Books Section -->
+    <div id="borrowed-books" style="display: none;">
+        <h2>Borrowed Books</h2>
+        <!-- Borrowed books list will be dynamically added here -->
+        <button onclick="displayBookSection()">Back to Book Search</button>
+    </div>
+
+    <!-- Return Books Section -->
+    <div id="return-books" style="display: none;">
+        <h2>Return Books</h2>
+        <!-- Return books functionality will be dynamically added here -->
+        <button onclick="displayBookSection()">Back to Book Search</button>
+    </div>
+
+    <footer>
+        &copy; 2024 Library Management System
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+<style>
+
+/* General Styles */
+body {
+    background-image: url('https://img.freepik.com/premium-photo/book-table-with-library-background_865967-29196.jpg');
+    /* background-color: yellow; */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 0;
+    font-size: 18px;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    color: #333;
+}
+
+/* Login page styling */
+#login-page {
+    background-color: #c8de1f;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    position: absolute; /* Position the element absolutely */
+    bottom: 450px; /* Distance from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for horizontal centering */
+    display: block; /* Ensure it is displayed */
+}
+
+
+header {
+    background-color: #7c35d7;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    width: 100%;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin-left: 30px;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #ebd52a;
+}
+
+#searchBar {
+    padding: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    width: 80%;
+    font-size: 1em;
+}
+
+main {
+    padding: 30px;
+}
+
+section {
+    margin-bottom: 50px;
+}
+
+footer {
+    background-color: #12df60;
+    color: rgba(216, 27, 27, 0.974);
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin-bottom: 10px;
+    }
+
+    #searchBar {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    footer {
+        position: relative;
+    }
+}
+
+/* Responsive Button Styles */
+.responsive-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.responsive-button:hover {
+    background-color: #45a049;
+}
+
+.book {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+    width: calc(33.33% - 20px);
+    box-sizing: border-box;
+    float: left;
+}
+
+.book-cover {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.container {
+            display: flex;
+            justify-content: space-between; /* Space between the images */
+            align-items: center; /* Center vertically if needed */
+            padding: 20px; /* Add some padding around the container */
+        }
+        .container img {
+            width: 250px; /* Adjust the width as needed */
+            height: 200px /* Maintain aspect ratio */
+        }
+
+
+
+</style>
+
+<script>
+
+// Initialize global variables for login status and borrowed books
+let isLoggedIn = false;
+let borrowedBooks = [];
+
+// Function to check login status on page load
+window.onload = function() {
+    checkLoginStatus();
+};
+
+// Check login status and toggle visibility of sections accordingly
+function checkLoginStatus() {
+    if (isLoggedIn) {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("book-display").style.display = "block";
+    } else {
+        document.getElementById("login-page").style.display = "block";
+        document.getElementById("book-display").style.display = "none";
+    }
+}
+
+// Login function to authenticate user
+function login(event) {
+    event.preventDefault(); // Prevent form submission
+    isLoggedIn = true; // Simulate successful login
+    checkLoginStatus(); // Update UI based on login status
+}
+
+// Logout function to reset login status
+function logout() {
+    isLoggedIn = false; // Reset login status
+    checkLoginStatus(); // Update UI based on login status
+}
+
+// Function to search for books using Open Library API
+async function searchBooks() {
+    const query = document.getElementById('searchBar').value; // Get the search query from the input field
+    const url = `https://openlibrary.org/search.json?q=${query}`; // Construct API URL
+
+    try {
+        const response = await fetch(url); // Fetch data from Open Library API
+        const data = await response.json(); // Parse response as JSON
+        displayBooks(data.docs); // Display the retrieved books
+    } catch (error) {
+        console.error('Error fetching books:', error); // Handle fetch error
+    }
+}
+
+// Function to display books including images
+function displayBooks(books) {
+    const container = document.getElementById('books-container'); // Get container element for books
+    container.innerHTML = ''; // Clear any previous content
+
+    books.forEach(book => {
+        const bookElement = document.createElement('div'); // Create a div for each book
+        bookElement.className = 'book'; // Add 'book' class for styling
+        
+        // Construct the URL for book cover image
+        const coverId = book.cover_i; 
+        const coverURL = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : 'https://via.placeholder.com/128x180.png?text=No+Cover';
+
+        // Populate the book div with details and image
+        bookElement.innerHTML = `
+            <img src="${coverURL}" alt="Book Cover" class="book-cover">
+            <h3>${book.title}</h3>
+            <p><strong>Author:</strong> ${book.author_name ? book.author_name.join(', ') : 'Unknown'}</p>
+            <p><strong>First Published:</strong> ${book.first_publish_year || 'N/A'}</p>
+        `;
+        container.appendChild(bookElement); // Add book div to the container
+    });
+}
+
+// Function to display the borrowed books section
+function displayBorrowedBooks() {
+    document.getElementById("borrowed-books").style.display = "block"; // Show borrowed books section
+    document.getElementById("book-display").style.display = "none"; // Hide book search section
+    document.getElementById("return-books").style.display = "none"; // Hide return books section
+}
+
+// Function to display the return books section
+function displayReturnSection() {
+    document.getElementById("return-books").style.display = "block"; // Show return books section
+    document.getElementById("book-display").style.display = "none"; // Hide book search section
+    document.getElementById("borrowed-books").style.display = "none"; // Hide borrowed books section
+}
+
+// Function to go back to the book search section
+function displayBookSection() {
+    document.getElementById("book-display").style.display = "block"; // Show book search section
+    document.getElementById("borrowed-books").style.display = "none"; // Hide borrowed books section
+    document.getElementById("return-books").style.display = "none"; // Hide return books section
+}
+
+
+</script>

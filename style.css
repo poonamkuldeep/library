@@ -1,0 +1,170 @@
+
+/* General Styles */
+body {
+    background-image: url('https://img.freepik.com/premium-photo/book-table-with-library-background_865967-29196.jpg');
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 0;
+    font-size: 20px;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+    color: #51113d;
+    font-weight: 700; 
+}
+
+/* Login page styling */
+#login-page {
+    background-color: #c8de1f;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 350px;
+    height: 110px;
+    max-width: 400px;
+    text-align: center;
+    position: absolute;
+    bottom: 450px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+}
+
+header {
+    background-color: #7c35d7;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    display: flex;
+    width: 100%;
+    height: 70px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin-left: 30px;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #ebd52a;
+}
+
+#searchBar {
+    padding: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    width: 80%;
+    font-size: 1em;
+}
+
+main {
+    padding: 30px;
+}
+
+section {
+    margin-bottom: 50px;
+}
+
+footer {
+    background-color: #000000;
+    color: rgba(216, 27, 27, 0.974);
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin-bottom: 10px;
+    }
+
+    #searchBar {
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    footer {
+        position: relative;
+    }
+}
+
+/* Responsive Button Styles */
+.responsive-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.responsive-button:hover {
+    background-color: #45a049;
+}
+
+.book {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 4px;
+    width: calc(33.33% - 20px);
+    box-sizing: border-box;
+    float: left;
+}
+
+.book-cover {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.container img {
+    width: 250px;
+    height: 200px;
+}

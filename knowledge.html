@@ -1,0 +1,53 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Library Management System</div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Page -->
+     <center>
+        <div id="login-page">
+            <form id="loginForm" onsubmit="login(event)">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="responsive-button">Login</button>
+            </form>
+        </div>
+    </center>
+
+    <!-- Book Display Section -->
+    <div id="book-display" style="display: none;">
+        <h2>Search Books</h2>
+        <input type="text" id="searchBar" placeholder="Search for books..." oninput="searchBooks()">
+        <div id="books-container"></div>
+    </div>
+
+    <!-- <!- Borrowed Books Section --> -->
+    <div id="borrowed-books" style="display: none;">
+        <h2>Borrowed Books</h2>
+        <div id="borrowed-books-list"></div>
+        <button class="responsive-button" onclick="displayBookSection()">Back to Book Search</button>
+    </div>
+
+    <footer>
+        &copy; 2024 Library Management System
+    </footer>
+
+    <script src="script.js"></script>
+</body> 
+</html> 
+ 
+
+
